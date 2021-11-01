@@ -10,3 +10,5 @@ AND "dish"."id" IN (
         WHERE "dish_tag"."id_tag" IN ('1')    
     )
 ORDER BY "dish"."name", "dish"."price" DESC, "tag"."name"
+LIMIT 1
+OFFSET 1
