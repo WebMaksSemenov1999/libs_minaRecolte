@@ -6,17 +6,20 @@ users = []
 niks = []
 emails = []
 
+
 def randAdm(count_is_adm):
     if count_is_adm >= 3:
         return False
     else:
-        return bool(randint(0,1))
+        return bool(randint(0, 1))
+
 
 def randActive(count_is_act):
     if count_is_act >= 5:
         return True
     else:
-        return bool(randint(0,1))
+        return bool(randint(0, 1))
+
 
 def uniqNik():
     response = requests.get('https://api.randomdatatools.ru?unescaped=false&params=Login')
@@ -27,9 +30,8 @@ def uniqNik():
     if len(niks) == len(set_niks):
         return nik_file["Login"]
     else:
-        niks.pop(len(niks)-1)
+        niks.pop(len(niks) - 1)
         return uniqNik()
-
 
 
 def uniqEmail():
@@ -41,13 +43,13 @@ def uniqEmail():
     if len(emails) == len(set_emails):
         return email_file["Email"]
     else:
-        emails.pop(len(emails)-1)
+        emails.pop(len(emails) - 1)
         return uniqEmail()
 
 def generatorUser(count):
     count_is_adm = 0
     count_is_act = 0
-    for  i in range(count):
+    for i in range(count):
         response = requests.get('https://api.randomdatatools.ru?unescaped=false')
         jfile = json.loads(response.text)
 
@@ -65,17 +67,15 @@ def generatorUser(count):
         users.append(
             {"fio": jfile["LastName"] + ' ' + jfile["FirstName"] + ' ' + jfile["FatherName"],
              'password': jfile["Password"],
-             'nik' : correct_nik,
-             'email' : correct_email,
+             'nik': correct_nik,
+             'email': correct_email,
              'is_user': True,
              'is_admin': is_admin,
              'is_active': is_active
              }
         )
 
-generatorUser(15)
 
+generatorUser(200)
 
-
-print(niks)
-print(emails)
+print(users)

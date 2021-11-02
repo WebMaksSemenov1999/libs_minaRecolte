@@ -12,8 +12,7 @@ user = {
     'isActive' : False
 }
 
-niks = []
-emails = []
+
 
 
 def spisok_user(q):
