@@ -1,0 +1,1 @@
+SELECT * FROM "type-tag" WHERE "id" = '3'
