@@ -124,6 +124,17 @@ CREATE TABLE "public"."token" (
 ) WITH (oids = false);
 
 
+CREATE SEQUENCE "type-tag_id_seq" INCREMENT  MINVALUE  MAXVALUE  CACHE ;
+
+CREATE TABLE "public"."type-tag" (
+    "id" smallint DEFAULT nextval('"type-tag_id_seq"') NOT NULL,
+    "key" character varying NOT NULL,
+    "description" text NOT NULL,
+    CONSTRAINT "type-tag_key" UNIQUE ("key"),
+    CONSTRAINT "type-tag_pkey" PRIMARY KEY ("id")
+) WITH (oids = false);
+
+
 CREATE SEQUENCE usera_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 2 CACHE 1;
 
 CREATE TABLE "public"."users" (
@@ -168,4 +179,4 @@ ALTER TABLE ONLY "public"."order" ADD CONSTRAINT "order_id_status_fkey" FOREIGN 
 ALTER TABLE ONLY "public"."users_token" ADD CONSTRAINT "users_token_id_token_fkey" FOREIGN KEY (id_token) REFERENCES token(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."users_token" ADD CONSTRAINT "users_token_id_users_fkey" FOREIGN KEY (id_users) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
--- 2021-11-04 05:29:51.062401+00
+-- 2021-11-04 05:46:57.544154+00
