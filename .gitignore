@@ -1,4 +1,4 @@
 .idea/
 /venv
-snaql/**/__pycache__/
+**/__pycache__/
 
