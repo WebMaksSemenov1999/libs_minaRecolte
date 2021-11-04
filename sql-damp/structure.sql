@@ -106,7 +106,7 @@ CREATE TABLE "public"."tag" (
     "id" integer DEFAULT nextval('tag_id_seq') NOT NULL,
     "name" character varying NOT NULL,
     "active" boolean NOT NULL,
-    "type" character varying NOT NULL,
+    "id_type" integer,
     CONSTRAINT "tag_name" UNIQUE ("name"),
     CONSTRAINT "tag_pkey" PRIMARY KEY ("id")
 ) WITH (oids = false);
@@ -176,7 +176,9 @@ ALTER TABLE ONLY "public"."dish_tag" ADD CONSTRAINT "dish_tag_id_tag_fkey" FOREI
 ALTER TABLE ONLY "public"."order" ADD CONSTRAINT "order_id_cart_fkey" FOREIGN KEY (id_cart) REFERENCES cart(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."order" ADD CONSTRAINT "order_id_status_fkey" FOREIGN KEY (id_status) REFERENCES status(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
+ALTER TABLE ONLY "public"."tag" ADD CONSTRAINT "tag_id_type_fkey" FOREIGN KEY (id_type) REFERENCES "type-tag"(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
+
 ALTER TABLE ONLY "public"."users_token" ADD CONSTRAINT "users_token_id_token_fkey" FOREIGN KEY (id_token) REFERENCES token(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."users_token" ADD CONSTRAINT "users_token_id_users_fkey" FOREIGN KEY (id_users) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
--- 2021-11-04 05:46:57.544154+00
+-- 2021-11-04 05:54:07.993982+00
