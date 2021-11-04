@@ -1,15 +1,34 @@
 from bd import conn
-from sql_fun.users import users_inset_admin
+from sql_fun.users import users_select_all
+params = {
+    'limit': '2',
+    'offeset':'2',
+    'order':{
+        'fio': True,
+        'email': False,
+        'nik': False,
+        'is_active': False,
+        'is_admin': False,
+        'is_user':False,
+    }
+} 
+ 
+def ParsringOrder(obj):
+    stringOrder = ""
+    for key in obj:
+        if obj[key] == True:
+            stringOrder += key + ' ' +  'DESC,'
+        if obj[key] == False:
+            stringOrder += key + ' ' +  'ASC,'
+    
+    return stringOrder[0:-1]
 
-your_sql = users_inset_admin(
-    fio='Maks Semen', 
-    nik='dadas4345asdtzz',
-    email='das1321asdzzz@mail.ru',
-    password='pdsf932gfz',
-    avatar='https://placepic.ru/wp-content/uploads/2018/01/art-krasivyie-kartinki-Putin-politika-1331294.jpeg',
-    is_active='1',
-    is_admin='1',
-    is_user='1'
-    )
+params['order'] = ParsringOrder(params['order'])
+ 
+
+
+your_sql = users_select_all(**params)
 cur = conn.cursor()
+print(your_sql)
 cur.execute(your_sql)
+print(cur.fetchall())
