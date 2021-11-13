@@ -1,16 +1,22 @@
 import random
 import datetime
 import secrets
-#Другая директория
-#from bd import conn
+
+from bd import conn
 
 now = datetime.datetime.now()
 tokens = []
 uniq_tokens = []
 
+
 def saveTokens(tok):
+    print(tok)
     cursor = conn.cursor()
-    cursor.execute()
+    sql = f'INSERT INTO "token" ("date", "active", "token") ' \
+          f'VALUES (\'{tok["date"]}\',\'{tok["is_active"]}\', \'{tok["token"]}\');'
+    print(sql)
+    cursor.execute(sql)
+
 
 def uniqToken():
     tmptoken = secrets.token_hex()
@@ -22,14 +28,15 @@ def uniqToken():
         uniq_tokens.pop(len(uniq_tokens) - 1)
         return uniqToken()
 
+
 def randActive(count_is_act):
     if count_is_act >= 5:
         return True
     else:
         return bool(random.randint(0, 1))
 
-def cteateToken(count):
 
+def createToken(count):
     for i in range(count):
         count_is_act = 0
         is_active = randActive(count_is_act)
@@ -43,7 +50,4 @@ def cteateToken(count):
         })
 
     for tok in tokens:
-        saveToken(tok)
-
-
-cteateToken()
+        saveTokens(tok)
