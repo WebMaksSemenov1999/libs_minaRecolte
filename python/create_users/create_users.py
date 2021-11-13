@@ -9,7 +9,6 @@ users = []
 niks = []
 emails = []
 
-
 def saveUsers(user):
     cursor = conn.cursor()
     cursor.execute(f'INSERT INTO "users" ("fio", "nik", "email", "password", "avatar", "is_active", "is_admin", '
@@ -70,6 +69,7 @@ def getImage():
 def generatorUser(count):
     count_is_adm = 0
     count_is_act = 0
+    indexUsers = -1
 
     for i in range(count):
         response = requests.get(
@@ -99,9 +99,9 @@ def generatorUser(count):
                 'is_active': is_active
             }
         )
+        print("Пользователь создан " + str(indexUsers))
+        indexUsers = indexUsers + 1
+        saveUsers(users[indexUsers])
 
-    for user in users:
-        saveUsers(user)
-
-
-generatorUser(2)
+    # for user in users:
+        # saveUsers(user)
