@@ -1,15 +1,10 @@
-import sys, os.path
- 
-main = (os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-sys.path.append(main)
- 
-
 import requests
 import json
 from bs4 import BeautifulSoup as bs
 import random
 import bcrypt
 from bd import conn
+
 users = []
 niks = []
 emails = []
@@ -19,17 +14,20 @@ def saveUsers(user):
     cursor.execute(f'INSERT INTO "users" ("fio", "nik", "email", "password", "avatar", "is_active", "is_admin", '
                    f'"is_user") VALUES (\'{user["fio"]}\', \'{user["nik"]}\', \'{user["email"]}\', \'{user["password"]}\', \'{user["avatar"]}\', \'{user["is_active"]}\', \'{user["is_admin"]}\', \'{user["is_user"]}\') ;')
 
+
 def randAdm(count_is_adm):
     if count_is_adm >= 3:
         return False
     else:
         return bool(random.randint(0, 1))
 
+
 def randActive(count_is_act):
     if count_is_act >= 5:
         return True
     else:
         return bool(random.randint(0, 1))
+
 
 def uniqNik():
     response = requests.get(
@@ -44,6 +42,7 @@ def uniqNik():
         niks.pop(len(niks) - 1)
         return uniqNik()
 
+
 def uniqEmail():
     response = requests.get(
         'https://api.randomdatatools.ru?unescaped=false&params=Email')
@@ -57,12 +56,13 @@ def uniqEmail():
         emails.pop(len(emails) - 1)
         return uniqEmail()
 
+
 def getImage():
     # Парсинг ссылок на изображения
     text = requests.get("https://www.google.ru/search?tbm=isch&q=человек").text
     soup = bs(text, "html.parser")
     imgall = soup.find_all('img')
-    index = random.randint(0, len(soup.find_all('img'))-1)
+    index = random.randint(0, len(soup.find_all('img')) - 1)
     return imgall[index].get('src')
 
 
@@ -90,7 +90,7 @@ def generatorUser(count):
         users.append(
             {
                 'fio': jfile["LastName"] + ' ' + jfile["FirstName"] + ' ' + jfile["FatherName"],
-                'password':  hash.decode(),
+                'password': hash.decode(),
                 'nik': uniqNik(),
                 'email': uniqEmail(),
                 'avatar': getImage(),
@@ -105,5 +105,3 @@ def generatorUser(count):
 
     # for user in users:
         # saveUsers(user)
-
-generatorUser(150)

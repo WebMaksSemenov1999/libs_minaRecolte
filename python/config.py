@@ -1,4 +1,4 @@
 host = "127.0.0.1"
-user = "root"
-password = "JDAKF032498FFjfs3"
+user = "postgres"
+password = "postgres"
 db_name = "MinaRecolte"
